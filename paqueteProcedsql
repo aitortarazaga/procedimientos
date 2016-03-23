@@ -1,0 +1,65 @@
+CREATE OR REPLACE PACKAGE paquete_centro
+IS 
+  PROCEDURE ver_lista_centro
+  (idCentro CENTRO.ID%TYPE);
+  
+      
+   PROCEDURE insert_centro
+   (pnombre CENTRO.NOMBRE%TYPE,
+    pcalle CENTRO.CALLE%TYPE,
+    pnumero CENTRO.NUMERO%TYPE,
+    pcp CENTRO.CPOSTAL%TYPE,
+    pciudad CENTRO.CIUDAD%TYPE,
+    pprovincia CENTRO.PROVINCIA%TYPE,
+    ptelefono CENTRO.TELEFONO%TYPE,
+    idCentro CENTRO.ID%TYPE);
+    
+    
+    PROCEDURE delete_centro
+    (idCentro CENTRO.ID%TYPE);
+  END;
+    
+CREATE OR REPLACE PACKAGE BODY paquete_centro IS
+  PROCEDURE delete_centro
+    (idCentro CENTRO.ID%TYPE)
+  IS
+  BEGIN
+    DELETE FROM centro
+    WHERE id = idCentro;
+  END delete_centro;
+  
+  
+  PROCEDURE insert_centro
+    (pnombre CENTRO.NOMBRE%TYPE,
+    pcalle CENTRO.CALLE%TYPE,
+    pnumero CENTRO.NUMERO%TYPE,
+    pcp CENTRO.CPOSTAL%TYPE,
+    pciudad CENTRO.CIUDAD%TYPE,
+    pprovincia CENTRO.PROVINCIA%TYPE,
+    ptelefono CENTRO.TELEFONO%TYPE,
+    idCentro CENTRO.ID%TYPE)
+  IS
+  BEGIN
+    INSERT INTO centro (NOMBRE,CALLE,NUMERO,CPOSTAL,CIUDAD,PROVINCIA,TELEFONO) 
+    VALUES(pnombre,pcalle,pnumero,pcp,pciudad,pprovincia,ptelefono);
+  END insert_centro;
+  
+  
+  PROCEDURE ver_lista_centro
+    (idCentro CENTRO.ID%TYPE)
+  IS
+    pid CENTRO.ID%TYPE;
+    pnombre CENTRO.NOMBRE%TYPE;
+    pcalle CENTRO.CALLE%TYPE;
+    pnumero CENTRO.NUMERO%TYPE;
+    pcp CENTRO.CPOSTAL%TYPE;
+    pciudad CENTRO.CIUDAD%TYPE;
+    pprovincia CENTRO.PROVINCIA%TYPE;
+    ptelefono CENTRO.TELEFONO%TYPE;
+  BEGIN
+    SELECT *
+    INTO pid, pnombre, pcalle, pnumero, pcp, pciudad, pprovincia, ptelefono
+    FROM CENTRO
+    WHERE id = idCentro;
+  END ver_lista_centro;
+END;
