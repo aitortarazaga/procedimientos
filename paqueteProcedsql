@@ -1,9 +1,11 @@
 CREATE OR REPLACE PACKAGE paquete_centro
 IS 
-  PROCEDURE ver_lista_centro
-  (idCentro CENTRO.ID%TYPE);
+  TYPE V_CURSOR IS REF CURSOR;
+  PROCEDURE visualizar_lista_centro
+  (idCentro CENTRO.ID%TYPE,
+  V_Us_Curs OUT V_CURSOR);
   
-      
+  
    PROCEDURE insert_centro
    (pnombre CENTRO.NOMBRE%TYPE,
     pcalle CENTRO.CALLE%TYPE,
@@ -36,8 +38,7 @@ CREATE OR REPLACE PACKAGE BODY paquete_centro IS
     pcp CENTRO.CPOSTAL%TYPE,
     pciudad CENTRO.CIUDAD%TYPE,
     pprovincia CENTRO.PROVINCIA%TYPE,
-    ptelefono CENTRO.TELEFONO%TYPE,
-    idCentro CENTRO.ID%TYPE)
+    ptelefono CENTRO.TELEFONO%TYPE)
   IS
   BEGIN
     INSERT INTO centro (NOMBRE,CALLE,NUMERO,CPOSTAL,CIUDAD,PROVINCIA,TELEFONO) 
@@ -45,21 +46,13 @@ CREATE OR REPLACE PACKAGE BODY paquete_centro IS
   END insert_centro;
   
   
-  PROCEDURE ver_lista_centro
-    (idCentro CENTRO.ID%TYPE)
+  PROCEDURE visualizar_lista_centro
+    (idCentro CENTRO.ID%TYPE,
+    V_Us_Curs OUT V_CURSOR)
   IS
-    pid CENTRO.ID%TYPE;
-    pnombre CENTRO.NOMBRE%TYPE;
-    pcalle CENTRO.CALLE%TYPE;
-    pnumero CENTRO.NUMERO%TYPE;
-    pcp CENTRO.CPOSTAL%TYPE;
-    pciudad CENTRO.CIUDAD%TYPE;
-    pprovincia CENTRO.PROVINCIA%TYPE;
-    ptelefono CENTRO.TELEFONO%TYPE;
   BEGIN
     SELECT *
-    INTO pid, pnombre, pcalle, pnumero, pcp, pciudad, pprovincia, ptelefono
-    FROM CENTRO
-    WHERE id = idCentro;
-  END ver_lista_centro;
+      FROM CENTRO
+      WHERE id = idCentro;
+  END visualizar_lista_centro;
 END;
